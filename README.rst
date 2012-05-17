@@ -1,5 +1,7 @@
+=====================
 Django Twisted Server
 =====================
+
 A Django WSGI Server
 
 Requirement
@@ -16,7 +18,7 @@ First, copy `servicemaker.py` and `twisted` folder to your project directory.
 
 In your `settings.py`:
 * Make sure `DEBUG = TRUE`
-* If you want to enable SSL:
+* If you want to enable SSL::
 
     TWISTED_ENABLE_SSL = True
     TWISTED_SSL_CERT = './cert/cert.pem' # path to your certificate file
@@ -36,7 +38,7 @@ First, copy `servicemaker.py` and `twisted` folder to your project directory.
 
 In your `settings.py`:
 * Make sure `DEBUG = False`
-* Add following code:
+* Add following code::
 
     TWISTED_HTTP_PORT = 80 # for http request
     TWISTED_HTTPS_PORT = 443 # for https request
