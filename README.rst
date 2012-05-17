@@ -30,6 +30,21 @@ In your ``settings.py``:
     TWISTED_SSL_CERT = './cert/cert.pem' # path to your certificate file
     TWISTED_SSL_KEY = './cert/key.pem' # path to your certificate key
 
+* If you encounter problem with static files handling, edit your main ``url.py`` as following::
+
+    from django.conf.urls.defaults import patterns, include, url
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    from django.conf.urls.static import static
+    from django.conf import settings
+    
+    
+    urlpatterns = patterns('',
+        # your urlconfigs...    
+    )
+    
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 To run the server, use ``twistd -n rundjserver``. If you omit ``-n``,
 Twisted will run as daemon with pid saved in ``twistd.pid`` file.
 To kill the daemon, use ``kill <pid>``.
