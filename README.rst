@@ -15,6 +15,11 @@ As Development Server
 ---------------------
 
 First, copy ``servicemaker.py`` and ``twisted`` folder to your project directory.
+Edit ``servicemaker.py`` and replace following line::
+    
+    # Replace this line with your wsgi script
+    from ExampleDjangoProject import wsgi as django_wsgi
+
 
 In your ``settings.py``:
 * Make sure ``DEBUG = TRUE``
@@ -35,6 +40,11 @@ As Production Server
 ---------------------
 
 First, copy ``servicemaker.py`` and ``twisted`` folder to your project directory.
+Edit ``servicemaker.py`` and replace following line::
+    
+    # Replace this line with your wsgi script
+    from ExampleDjangoProject import wsgi as django_wsgi
+
 
 In your ``settings.py``:
 * Make sure ``DEBUG = False``
