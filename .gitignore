@@ -1,0 +1,5 @@
+*.komodoproject
+media/
+*.pyc
+dropin.cache
+
