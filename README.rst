@@ -23,7 +23,7 @@ Edit ``servicemaker.py`` and replace following line::
 
 In your ``settings.py``:
 
-* Make sure ``DEBUG = TRUE``
+* Make sure ``DEBUG = True``
 * If you want to enable SSL::
 
     TWISTED_ENABLE_SSL = True
