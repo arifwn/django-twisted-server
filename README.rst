@@ -22,6 +22,7 @@ Edit ``servicemaker.py`` and replace following line::
 
 
 In your ``settings.py``:
+
 * Make sure ``DEBUG = TRUE``
 * If you want to enable SSL::
 
@@ -47,6 +48,7 @@ Edit ``servicemaker.py`` and replace following line::
 
 
 In your ``settings.py``:
+
 * Make sure ``DEBUG = False``
 * Add following code::
 
