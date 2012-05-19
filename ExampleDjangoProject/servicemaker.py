@@ -94,11 +94,7 @@ def wsgi_redirector_app(environ, start_response):
     '''
     global SSL_PORT
     
-    for key in environ:
-        print key, environ[key]
-    
     server = environ['SERVER_NAME']
-    sslport = '8000'
     path = environ['PATH_INFO']
     
     if SSL_PORT == '443':
