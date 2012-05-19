@@ -116,7 +116,7 @@ The following settings apply regardless of ``DEBUG`` value.
 * ``TWISTED_ENABLE_SSL = False`` start https server in addition to http server.
 * ``TWISTED_REDIRECT_TO_HTTPS = False`` redirect all incoming http request to https.
 * ``TWISTED_SSL_CERT = './cert/cert.pem'`` ssl certificate used to serve https request.
-  although the default value uses relative path, you should use absolute path especially
+  Although the default value uses relative path, you should use absolute path especially
   in production environment.
 * ``TWISTED_SSL_KEY = './cert/key.pem'``` ssl certificate's key used to serve https request.
 * ``TWISTED_THREADPOOL_MIN_SIZE = 10`` minimum number of threads available in the reactor's
