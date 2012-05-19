@@ -2,7 +2,14 @@
 Django Twisted Server
 =====================
 
-A Django WSGI Server
+A Django WSGI Server.
+
+Features
+========
+
+* Multithreaded server capable of serving concurrent request.
+* SSL Support out of the box.
+* Optional Twisted features (epoll reactor, etc...)
 
 Requirement
 ===========
@@ -80,3 +87,38 @@ To run the server, use ``twistd rundjserver``. You must run it as privileged use
 since Twisted will listen on privileged ports.
 Twisted will run as daemon with pid saved in ``twistd.pid`` file.
 To kill the daemon, use ``kill <pid>``.
+
+Available Settings
+==================
+
+The following settings apply when you set ``DEBUG = True``. They are meant to be used for 
+development server (i.e. runserver replacement). There is no autoreload feature yet, so
+you will need to restart the server manually if you changed any of your code.
+
+* ``TWISTED_DEBUG_LISTEN_ADDR = '127.0.0.1'`` listened address. Set to empty string ``''`` to 
+  make Twisted listen on all available address.
+* ``TWISTED_DEBUG_HTTP_PORT = '8000'`` port used to listen for incoming http request.
+* ``TWISTED_DEBUG_HTTPS_PORT = '8001'`` port used to listen for incoming https request.
+
+
+The following settings apply when you set ``DEBUG = False``. They are meant to be used for 
+production server.
+
+* ``TWISTED_SERVE_STATIC = True`` serve static media (``MEDIA_URL`` and ``STATIC_URL``) 
+  using Twisted's static file handler.
+* ``TWISTED_LISTEN_ADDR = ''`` listened address. Set to empty string ``''`` to 
+  make Twisted listen on all available address.
+* ``TWISTED_HTTP_PORT = '80'`` port used to listen for incoming http request.
+* ``TWISTED_HTTPS_PORT = '443'`` port used to listen for incoming https request.
+
+The following settings apply regardless of ``DEBUG`` value.
+
+* ``TWISTED_ENABLE_SSL = False`` start https server in addition to http server.
+* ``TWISTED_REDIRECT_TO_HTTPS = False`` redirect all incoming http request to https.
+* ``TWISTED_SSL_CERT = './cert/cert.pem'`` ssl certificate used to serve https request.
+  although the default value uses relative path, you should use absolute path especially
+  in production environment.
+* ``TWISTED_SSL_KEY = './cert/key.pem'``` ssl certificate's key used to serve https request.
+* ``TWISTED_THREADPOOL_MIN_SIZE = 10`` minimum number of threads available in the reactor's
+  thread pool.
+* ``TWISTED_THREADPOOL_MAX_SIZE = 50`` maximum number of threads in the reactor's thread pool.
