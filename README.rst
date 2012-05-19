@@ -8,7 +8,7 @@ Features
 ========
 
 * Multithreaded server capable of serving concurrent request.
-* SSL Support out of the box.
+* SSL support out of the box.
 * Optional Twisted features (epoll reactor, etc...)
 
 Requirement
