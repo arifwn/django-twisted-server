@@ -119,6 +119,6 @@ The following settings apply regardless of ``DEBUG`` value.
   Although the default value uses relative path, you should use absolute path especially
   in production environment.
 * ``TWISTED_SSL_KEY = './cert/key.pem'``` ssl certificate's key used to serve https request.
-* ``TWISTED_THREADPOOL_MIN_SIZE = 10`` minimum number of threads available in the reactor's
+* ``TWISTED_THREADPOOL_MIN_SIZE = 2`` minimum number of threads available in the reactor's
   thread pool.
-* ``TWISTED_THREADPOOL_MAX_SIZE = 50`` maximum number of threads in the reactor's thread pool.
+* ``TWISTED_THREADPOOL_MAX_SIZE = 10`` maximum number of threads in the reactor's thread pool.

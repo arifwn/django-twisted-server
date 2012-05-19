@@ -43,8 +43,8 @@ ENABLE_SSL = getattr(settings, 'TWISTED_ENABLE_SSL', False)
 SSL_KEY = getattr(settings, 'TWISTED_SSL_KEY', './cert/key.pem')
 SSL_CERT = getattr(settings, 'TWISTED_SSL_CERT', './cert/cert.pem')
 
-TPSIZE_MIN = getattr(settings, 'TWISTED_THREADPOOL_MIN_SIZE', 10)
-TPSIZE_MAX = getattr(settings, 'TWISTED_THREADPOOL_MAX_SIZE', 50)
+TPSIZE_MIN = getattr(settings, 'TWISTED_THREADPOOL_MIN_SIZE', 2)
+TPSIZE_MAX = getattr(settings, 'TWISTED_THREADPOOL_MAX_SIZE', 10)
 
 if getattr(settings, 'TWISTED_SERVE_STATIC', True):
     SERVE_STATIC = 'yes'
