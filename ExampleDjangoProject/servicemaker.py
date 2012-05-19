@@ -25,12 +25,15 @@ from twisted.internet import reactor, ssl
 # Replace this line with your wsgi script
 from ExampleDjangoProject import wsgi as django_wsgi
 
+ADDR = ''
+PORT = ''
+SSL_PORT = ''
 
 DEBUG = getattr(settings, 'DEBUG', True)
 if DEBUG:
-    DEFAULT_PORT = 8000
-    DEFAULT_SSL_PORT = 8001
-    DEFAULT_ADDR = '127.0.0.1'
+    DEFAULT_ADDR = getattr(settings, 'TWISTED_DEBUG_LISTEN_ADDR', '127.0.0.1')
+    DEFAULT_PORT = getattr(settings, 'TWISTED_DEBUG_HTTP_PORT', '8000')
+    DEFAULT_SSL_PORT = getattr(settings, 'TWISTED_DEBUG_HTTPS_PORT', '8001')
 else:
     DEFAULT_ADDR = getattr(settings, 'TWISTED_LISTEN_ADDR', '')
     DEFAULT_PORT = getattr(settings, 'TWISTED_HTTP_PORT', '80')
@@ -48,12 +51,18 @@ if getattr(settings, 'TWISTED_SERVE_STATIC', True):
 else:
     SERVE_STATIC = 'no'
 
+if getattr(settings, 'TWISTED_REDIRECT_TO_HTTPS', False):
+    REDIRECT_TO_HTTPS = 'yes'
+else:
+    REDIRECT_TO_HTTPS = 'no'
+
 class Options(usage.Options):
     optParameters = [
         ["port", "p", DEFAULT_PORT, "The port number to listen on."],
         ["sslport", "p", DEFAULT_SSL_PORT, "The port number for SSL Connection."],
         ["address", "a", DEFAULT_ADDR, "The address to listen on."],
-        ["servestatic", "s", SERVE_STATIC, "Serve Static content directly from Twisted."]]
+        ["servestatic", "s", SERVE_STATIC, "Serve Static content directly from Twisted."],
+        ["tohttps", "s", REDIRECT_TO_HTTPS, "Redirect all http request to https."]]
 
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):
@@ -79,6 +88,28 @@ class ThreadPoolService(service.Service):
         self.pool.stop()
 
 
+def wsgi_redirector_app(environ, start_response):
+    '''
+    Redirect all request to https
+    '''
+    global SSL_PORT
+    
+    for key in environ:
+        print key, environ[key]
+    
+    server = environ['SERVER_NAME']
+    sslport = '8000'
+    path = environ['PATH_INFO']
+    
+    if SSL_PORT == '443':
+        redirect_target = 'https://%s%s' % (server, path)
+    else:
+        redirect_target = 'https://%s:%s%s' % (server, SSL_PORT, path)
+    
+    start_response('302 Found', [('Location', redirect_target)])
+    return [redirect_target]
+
+
 class AQMServiceMaker(object):
     implements(IServiceMaker, IPlugin)
     tapname = "rundjserver"
@@ -86,6 +117,11 @@ class AQMServiceMaker(object):
     options = Options
 
     def makeService(self, options):
+        
+        # save address and port settings
+        set_http_port(options['port'])
+        set_https_port(options['sslport'])
+        set_address(options['address'])
         
         # make a new MultiService to hold the thread/web services
         multi = service.MultiService()
@@ -108,8 +144,17 @@ class AQMServiceMaker(object):
         
         site = server.Site(root)
         
+        # create redirector
+        redirector_resource = wsgi.WSGIResource(reactor, tps.pool, wsgi_redirector_app)
+        redirector_root = Root(redirector_resource)
+        redirector_site = server.Site(redirector_root)
+        
         # start the http server
-        ws = internet.TCPServer(int(options['port']), site, interface=options['address'])
+        if options['tohttps'] == 'yes':
+            # redirect all http request to https
+            ws = internet.TCPServer(int(options['port']), redirector_site, interface=options['address'])
+        else:
+            ws = internet.TCPServer(int(options['port']), site, interface=options['address'])
         ws.setServiceParent(multi)
         
         # start the https server
@@ -119,3 +164,17 @@ class AQMServiceMaker(object):
             ws_ssl.setServiceParent(multi)
         
         return multi
+
+
+def set_http_port(port):
+    global PORT
+    PORT = port
+
+def set_https_port(port):
+    global SSL_PORT
+    SSL_PORT = port
+
+def set_address(address):
+    global ADDR
+    ADDR = address
+
