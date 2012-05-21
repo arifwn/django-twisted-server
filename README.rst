@@ -88,6 +88,17 @@ since Twisted will listen on privileged ports.
 Twisted will run as daemon with pid saved in ``twistd.pid`` file.
 To kill the daemon, use ``kill <pid>``.
 
+For security, you should specify uid and gid under which the Twisted server will run. Otherwise,
+the server will run under root user, obviously not good for security.
+
+For example, to run the server under uid 1000 and gid 100 with above settings (http on port 80 and 
+https on port 443), execute this command under root: ``twistd -u 1000 -g 100 rundjserver``. 
+Twisted will first run as root to bind to selected ports, then shedding the privilege and
+run as specified user (uid: 1000 and gid: 100).
+
+TIPS: Use ``id <user>`` command to find uid and gid of a particular user.
+
+
 Available Settings
 ==================
 
