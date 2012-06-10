@@ -133,3 +133,8 @@ The following settings apply regardless of ``DEBUG`` value.
 * ``TWISTED_THREADPOOL_MIN_SIZE = 2`` minimum number of threads available in the reactor's
   thread pool.
 * ``TWISTED_THREADPOOL_MAX_SIZE = 10`` maximum number of threads in the reactor's thread pool.
+
+Another Way to Run Django With Twisted
+======================================
+* http://code.google.com/p/django-on-twisted/
+
