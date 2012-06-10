@@ -8,6 +8,6 @@ Created on Jan 22, 2012
 
 @author: arif
 '''
-import servicemaker
+from twisted_wsgi import servicemaker
 
-serviceMaker = servicemaker.AQMServiceMaker()
+serviceMaker = servicemaker.ServiceMaker()

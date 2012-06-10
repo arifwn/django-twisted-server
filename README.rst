@@ -21,11 +21,11 @@ Usage
 As Development Server
 ---------------------
 
-First, copy ``servicemaker.py`` and ``twisted`` folder to your project directory.
-Edit ``servicemaker.py`` and replace following line::
+First, copy ``twisted_wsgi`` and ``twisted`` folder to your project directory.
+Edit ``servicemaker.py`` in ``twisted_wsgi`` folder and replace following line::
     
-    # Replace this line with your wsgi script
-    from ExampleDjangoProject import wsgi as django_wsgi
+    # Replace this line with your settings module
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'ExampleDjangoProject.settings'
 
 
 In your ``settings.py``:
@@ -62,11 +62,11 @@ https://127.0.0.1:8001.
 As Production Server
 ---------------------
 
-First, copy ``servicemaker.py`` and ``twisted`` folder to your project directory.
-Edit ``servicemaker.py`` and replace following line::
+First, copy ``twisted_wsgi`` and ``twisted`` folder to your project directory.
+Edit ``servicemaker.py`` in ``twisted_wsgi`` folder and replace following line::
     
-    # Replace this line with your wsgi script
-    from ExampleDjangoProject import wsgi as django_wsgi
+    # Replace this line with your settings module
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'ExampleDjangoProject.settings'
 
 
 In your ``settings.py``:
